@@ -229,7 +229,7 @@ namespace app
                             _fsTarget->createFeature(feat, featId);
                             if( withIds ) {
                                 std::ostringstream ss;
-                                ss << "INSERT INTO " << targetIdsTableName << " (" << idName << ") VALUES (" << featId << ");";
+                                ss << "INSERT INTO " << targetIdsTableName << " (" << idName << ") VALUES ('" << featId << "');";
                                 context->getDataBaseManager().getConnection()->update(ss.str());
                             }
                         }
