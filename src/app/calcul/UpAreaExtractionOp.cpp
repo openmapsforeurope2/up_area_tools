@@ -127,11 +127,13 @@ namespace app
 
             //--
             if (!reset) {
-                ign::feature::FeatureFilter filter;
-                ign::feature::FeatureIteratorPtr it = _fsTargetIds->getFeatures(filter);
-                while (it->hasNext())
-                {
-                    _sExtracted.insert(it->next().getId());
+                std::ostringstream ss;
+                ss << "SELECT " << idName << " FROM " << targetIdsTableName << " ;";
+                ign::sql::SqlResultSetPtr result = context->getDataBaseManager().getConnection()->query( ss.str() );
+
+                for ( size_t i = 0; i < result->size(); i++ ){
+                    ign::sql::SqlValue value = result->getFieldValue(i,0);
+                    _sExtracted.insert(value.toString());
                 }
             }
 
@@ -227,10 +229,10 @@ namespace app
 
                             _fsTarget->createFeature(feat, featId);
                             if( withIds ) {
-                                ign::feature::Feature featIds = _fsTargetIds->newFeature();
-                                _fsTargetIds->createFeature(featIds, featId);
+                                std::ostringstream ss;
+                                ss << "INSERT INTO " << targetIdsTableName << " (" << idName << ") VALUES (" << featId << ");";
+                                context->getDataBaseManager().getConnection()->update(ss.str());
                             }
-                                
                         }
                     }
                 }
