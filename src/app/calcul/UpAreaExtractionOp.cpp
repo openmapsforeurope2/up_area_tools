@@ -173,11 +173,11 @@ namespace app
             //--
             std::ostringstream ssCondition;
             if( _neighborCountryCode == "" ) 
-                ssCondition  << countryCodeName << " NOT LIKE '%" << _countryCode << "%'";
+                ssCondition  << countryCodeName << " LIKE '%" << _countryCode << "%'";
             else
-                ssCondition  << countryCodeName << "!='" << _countryCode << "'"
-                    << " AND " << countryCodeName << "!='" << _neighborCountryCode << "'"
-                    << " AND " << countryCodeName << "!='" << std::min(_countryCode, _neighborCountryCode) << "#" << std::max(_countryCode, _neighborCountryCode) << "';";
+                ssCondition  << countryCodeName << "='" << _countryCode << "'"
+                    << " OR " << countryCodeName << "='" << _neighborCountryCode << "'"
+                    << " OR " << countryCodeName << "='" << std::min(_countryCode, _neighborCountryCode) << "#" << std::max(_countryCode, _neighborCountryCode) << "';";
             std::string const countryCodeContition = ssCondition.str();
 
             //--
