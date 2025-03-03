@@ -1,0 +1,36 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+        "name": "(gdb) Pipe Launch",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "/usr/local/src/up_area_tools/bin/up_area_toolsd",
+        "cwd": "/usr/local/src/up_area_tools",
+        "args": ["--c", "/usr/local/src/up_area_tools/config/epg_parameters.ini", "--op", "extract", "--T", "tn", "--f", "road_link", "--cc", "lu", "--from", "ref", "--no_reset"],
+        "stopAtEntry": true,
+        "environment": [{ "name": "config", "value": "Debug" }],
+        "externalConsole": true,
+        "sourceFileMap": {
+            "/usr/local/src/up_area_tools/src":"${workspaceRoot}/src",
+            "/usr/local/src/libepg/src":"${workspaceRoot}/../libepg/src",
+            "/usr/local/src/sd-socle/src":"${workspaceRoot}/../sd-socle/src",
+            "/usr/local/src/up_area_tools/include":"${workspaceRoot}/include",
+            "/usr/local/src/libepg/include":"${workspaceRoot}/../libepg/include",
+            "/usr/local/src/sd-socle/include":"${workspaceRoot}/../sd-socle/include"
+        },
+        "pipeTransport": {
+            "debuggerPath": "/usr/bin/gdb",
+            "pipeProgram": "docker",
+            "pipeArgs": ["exec", "-i", "up_area_tools_container", "sh", "-c"],
+            "pipeCwd": "${workspaceRoot}"
+        },
+        "MIMode": "gdb",
+        "setupCommands": [{
+            "description": "Enable pretty-printing for gdb",
+            "text": "-enable-pretty-printing",
+            "ignoreFailures": true
+        }]
+    }, ]
+}

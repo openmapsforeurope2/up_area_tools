@@ -1,0 +1,118 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build package",
+            "type": "shell",
+            "command": "docker run --privileged -v ${workspaceFolder}:/usr/local/src/up_area_tools up_area_tools ./build-unix-package.sh",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },
+        {
+            "label": "build release",
+            "type": "shell",
+            "command": "docker run --privileged -v ${workspaceFolder}:/usr/local/src/up_area_tools up_area_tools ./build-unix-release.sh",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },
+        {
+            "label": "build debug",
+            "type": "shell",
+            "command": "docker run --privileged -v ${workspaceFolder}:/usr/local/src/up_area_tools up_area_tools ./build-unix-debug.sh",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },
+        // {
+        //     "label": "clean (in container)",
+        //     "type": "shell",
+        //     "command": "docker run --privileged -v c:/vsc_docker_cc_gdb/:/root vsc_docker_cc_gdb make clean",
+        //     "group": "build",
+        //     "problemMatcher": []
+        // },
+        {
+            "label": "remove containers",
+            "type": "shell",
+            "command": "docker rm -f $(docker ps -a -q)",
+            "problemMatcher": []
+        },
+        {
+            "label": "run the code (creation)",
+            "type": "shell",
+            "command": "docker run --privileged -v ${workspaceFolder}:/usr/local/src/up_area_tools up_area_tools ./bin/up_area_tools --c /usr/local/src/up_area_tools/config/epg_parameters.ini --op create --T tn --f road_link --cc lu",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "run the code (extraction)",
+            "type": "shell",
+            "command": "docker run --privileged -v ${workspaceFolder}:/usr/local/src/up_area_tools up_area_tools ./bin/up_area_tools --c /usr/local/src/up_area_tools/config/epg_parameters.ini --op extract --T tn --f road_link --cc lu --from prod",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "run the code (extraction from up)",
+            "type": "shell",
+            "command": "docker run --privileged -v ${workspaceFolder}:/usr/local/src/up_area_tools up_area_tools ./bin/up_area_tools --c /usr/local/src/up_area_tools/config/epg_parameters.ini --op extract --from up --without_ids --T tn --f road_link --cc lu",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "prepare to debug",
+            "type": "shell",
+            "command": "docker run --privileged -v ${workspaceFolder}:/usr/local/src/up_area_tools --name up_area_tools_container -it up_area_tools ",
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}
