@@ -60,8 +60,6 @@ namespace calcul{
 		//--
 		ign::feature::sql::FeatureStorePostgis*                  _fsUpArea;
 		//--
-		ign::feature::sql::FeatureStorePostgis*                  _fsTargetIds;
-		//--
 		epg::log::EpgLogger*                                     _logger;
 		//--
 		epg::log::ShapeLogger*                                   _shapeLogger;

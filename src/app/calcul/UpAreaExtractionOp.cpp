@@ -123,7 +123,6 @@ namespace app
             _fsSource = context->getDataBaseManager().getFeatureStore(sourceTableName, idName, geomName);
             _fsTarget = context->getDataBaseManager().getFeatureStore(targetTableName, idName, geomName);
             _fsUpArea = context->getDataBaseManager().getFeatureStore(upAreaTableName, idName, geomName);
-            _fsTargetIds = context->getDataBaseManager().getFeatureStore(targetIdsTableName, idName, geomName);
 
             //--
             if (!reset) {
