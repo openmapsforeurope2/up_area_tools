@@ -15,35 +15,49 @@
 namespace app{
 namespace calcul{
 
+	/// @brief Classe consacrée à l'extraction des objets en intersection avec les zones mise à jour
 	class UpAreaExtractionOp {
 
 	public:
 
-	
-        /// @brief 
-        /// @param countryCode 
-        /// @param verbose 
+        /// @brief Constructeur
+        /// @param featureName Nom de la classe d'objet à traiter
+        /// @param countryCode Code pays simple
+        /// @param neighborCountryCode Code pays voisin (optionnel: renseigner une chaîne vide si on ne souhaite pas extraire le pays voisin)
+        /// @param sourceSchema Schéma source (les valeurs possibles sont : PROD, UP, REF, WORK)
+        /// @param targetSchema Schéma cible (les valeurs possibles sont : PROD, UP, REF, WORK)
+        /// @param reset Suppression des enregistrements contenus dans la table cible avant extraction
+        /// @param verbose Mode verbeux
         UpAreaExtractionOp(
 			std::string const& featureName,
             std::string const& countryCode,
 			std::string const& neighborCountryCode,
-            detail::SCHEMA sourceTheme,
-			detail::SCHEMA targetTheme,
+            detail::SCHEMA sourceSchema,
+			detail::SCHEMA targetSchema,
             bool reset,
             bool verbose = false
         );
 
-        /// @brief 
+        /// @brief Destructeur
         ~UpAreaExtractionOp();
 
-
-		/// \brief
+		/// @brief 
+		/// @param featureName Nom de la classe d'objet à traiter
+		/// @param countryCode Code pays simple
+		/// @param neighborCountryCode Code pays voisin (optionnel: renseigner une chaîne vide si on ne souhaite pas extraire le pays voisin)
+		/// @param sourceSchema Schéma source (les valeurs possibles sont : PROD, UP, REF, WORK)
+        /// @param targetSchema Schéma cible (les valeurs possibles sont : PROD, UP, REF, WORK)
+		/// @param withIds Indique si l'on souhaite enregistrer les indentifiants des objects extraits dans la table des identifiants
+		/// (ne pas enregistrer les identifiants dans la table des identifiants permet que les objets extraits soit considérés comme 
+		/// des créations par l'outil d'intégration - cf. projet data-tools)
+        /// @param reset Suppression des enregistrements contenus dans la table cible avant extraction
+        /// @param verbose Mode verbeux
 		static void Compute(
 			std::string const& featureName,
 			std::string const& countryCode,
 			std::string const& neighborCountryCode,
-            detail::SCHEMA sourceTheme,
-			detail::SCHEMA targetTheme,
+            detail::SCHEMA sourceSchema,
+			detail::SCHEMA targetSchema,
             bool withIds,
             bool reset,
 			bool verbose = false
@@ -78,9 +92,9 @@ namespace calcul{
 
 		//--
 		void _init(
-			detail::SCHEMA sourceTheme,
-			detail::SCHEMA targetTheme,
-			 bool reset
+			detail::SCHEMA sourceSchema,
+			detail::SCHEMA targetSchema,
+			bool reset
 		);
 
 		//--

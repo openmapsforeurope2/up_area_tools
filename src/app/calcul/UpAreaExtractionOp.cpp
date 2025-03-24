@@ -27,8 +27,8 @@ namespace app
             std::string const& featureName,
             std::string const& countryCode,
 			std::string const& neighborCountryCode,
-            detail::SCHEMA sourceTheme,
-			detail::SCHEMA targetTheme,
+            detail::SCHEMA sourceSchema,
+			detail::SCHEMA targetSchema,
             bool reset,
             bool verbose
         ) : 
@@ -37,7 +37,7 @@ namespace app
             _neighborCountryCode(neighborCountryCode),
             _verbose(verbose)
         {
-            _init(sourceTheme, targetTheme, reset);
+            _init(sourceSchema, targetSchema, reset);
         }
 
         ///
@@ -56,8 +56,8 @@ namespace app
             std::string const& featureName,
 			std::string const& countryCode,
 			std::string const& neighborCountryCode,
-            detail::SCHEMA sourceTheme,
-			detail::SCHEMA targetTheme,
+            detail::SCHEMA sourceSchema,
+			detail::SCHEMA targetSchema,
             bool withIds,
             bool reset,
 			bool verbose
@@ -66,8 +66,8 @@ namespace app
                 featureName,
                 countryCode,
                 neighborCountryCode,
-                sourceTheme,
-                targetTheme,
+                sourceSchema,
+                targetSchema,
                 reset,
                 verbose
             );
@@ -78,8 +78,8 @@ namespace app
         ///
         ///
         void UpAreaExtractionOp::_init(
-            detail::SCHEMA sourceTheme,
-			detail::SCHEMA targetTheme,
+            detail::SCHEMA sourceSchema,
+			detail::SCHEMA targetSchema,
             bool reset
         ) {
             //--
@@ -102,8 +102,8 @@ namespace app
             
             // app parameters
             params::ThemeParameters *themeParameters = params::ThemeParametersS::getInstance();
-            std::string sourceTableName = _featureName + detail::getSuffix(sourceTheme);
-            std::string targetTableName = _featureName + detail::getSuffix(targetTheme);
+            std::string sourceTableName = _featureName + detail::getSuffix(sourceSchema);
+            std::string targetTableName = _featureName + detail::getSuffix(targetSchema);
             std::string upAreaTableName = _featureName + themeParameters->getValue(TABLE_UP_AREA_SUFFIX).toString();
             std::string targetIdsTableName = _featureName + themeParameters->getValue(TABLE_WK_IDS_SUFFIX).toString();
 

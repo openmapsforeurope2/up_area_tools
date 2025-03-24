@@ -26,7 +26,6 @@ int main(int argc, char *argv[])
 {
     const std::string creationOp = "create";
     const std::string extractionOp = "extract";
-    const std::string delationOp = "delete";
     const std::string themeIb = "ib";
     const std::string themeAu = "au";
     const std::string themeHy = "hy";
@@ -86,6 +85,19 @@ int main(int argc, char *argv[])
             return 1;
         }
 
+        if( theme != themeIb && theme != themeAu && theme != themeHy && theme != themeTn )
+            IGN_THROW_EXCEPTION("unknown theme "+theme);
+        if( feature == "" )
+            IGN_THROW_EXCEPTION("feature name not defined");
+        if( operation != creationOp && operation != extractionOp )
+            IGN_THROW_EXCEPTION("unknown operation "+operation);
+        if( countryCode == "" )
+            IGN_THROW_EXCEPTION("missing country code");
+        if( from != schemaProd && from != schemaRef && from != schemaUp && from != schemaWork )
+            IGN_THROW_EXCEPTION("unknown 'from' schema "+from);
+        if( to != schemaProd && to != schemaRef && to != schemaUp && to != schemaWork )
+            IGN_THROW_EXCEPTION("unknown 'to' schema "+to);
+
         reset = !vm.count( "no_reset" );
         withIds = !vm.count( "without_ids" );
 
@@ -112,20 +124,7 @@ int main(int argc, char *argv[])
 		//theme parameters
 		themeParametersFile = context->getConfigParameters().getValue(THEME_PARAMETER_FILE).toString();
 		app::params::ThemeParameters* themeParameters = app::params::ThemeParametersS::getInstance();
-        epg::params::tools::loadParams(*themeParameters, themeParametersFile);
-
-        if( theme != themeIb && theme != themeAu && theme != themeHy && theme != themeTn )
-            IGN_THROW_EXCEPTION("unknown theme "+theme);
-        if( feature == "" )
-            IGN_THROW_EXCEPTION("feature name not defined");
-        if( operation != creationOp && operation != extractionOp && operation != delationOp )
-            IGN_THROW_EXCEPTION("unknown operation "+operation);
-        if( countryCode == "" )
-            IGN_THROW_EXCEPTION("missing country code");
-        if( from != schemaProd && from != schemaRef && from != schemaUp && from != schemaWork )
-            IGN_THROW_EXCEPTION("unknown 'from' schema "+from);
-        if( to != schemaProd && to != schemaRef && to != schemaUp && to != schemaWork )
-            IGN_THROW_EXCEPTION("unknown 'to' schema "+to);
+        epg::params::tools::loadParams(*themeParameters, themeParametersFile, theme);
 
         //info de connection db
         context->loadEpgParameters( themeParameters->getValue(DB_CONF_FILE).toString() );
@@ -144,14 +143,7 @@ int main(int argc, char *argv[])
         context->getDataBaseManager().addSchemaToSearchPath(themeParameters->getValue(UP_SCHEMA).toString());
         context->getDataBaseManager().addSchemaToSearchPath(themeParameters->getValue(REF_SCHEMA).toString());
         ome2::utils::setTableName<epg::params::EpgParametersS>(TARGET_BOUNDARY_TABLE);
-        if(theme == themeIb)
-            context->getDataBaseManager().addSchemaToSearchPath(themeParameters->getValue(IB_SCHEMA).toString());
-        else if (theme == themeAu)
-            context->getDataBaseManager().addSchemaToSearchPath(themeParameters->getValue(AU_SCHEMA).toString());
-        else if (theme == themeHy)
-            context->getDataBaseManager().addSchemaToSearchPath(themeParameters->getValue(HY_SCHEMA).toString());
-        else if (theme == themeTn)
-            context->getDataBaseManager().addSchemaToSearchPath(themeParameters->getValue(TN_SCHEMA).toString());
+        context->getDataBaseManager().addSchemaToSearchPath(themeParameters->getValue(THEME_SCHEMA).toString());
 
         detail::SCHEMA sourceSchema = from == schemaProd ? detail::PROD : from == schemaRef ? detail::REF : from == schemaUp ? detail::UP : from == schemaWork ? detail::WORK : detail::PROD;
         detail::SCHEMA targetSchema = to == schemaProd ? detail::PROD : to == schemaRef ? detail::REF : to == schemaUp ? detail::UP : to == schemaWork ? detail::WORK : detail::PROD;

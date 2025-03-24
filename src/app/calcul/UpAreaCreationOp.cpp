@@ -13,7 +13,6 @@
 #include <epg/tools/StringTools.h>
 #include <epg/tools/TimeTools.h>
 #include <epg/tools/FilterTools.h>
-// #include <epg/tools/geometry/simplifyLineString.h>
 #include <epg/tools/geometry/getArea.h>
 #include <epg/tools/geometry/ToValidGeometry.h>
 
@@ -143,6 +142,7 @@ namespace app
             std::string const borderCodeName = themeParameters->getValue(BORDER_CODE).toString();
             std::string const idRefName = themeParameters->getValue(ID_REF).toString();
             std::string const idUpName = themeParameters->getValue(ID_UP).toString();
+            std::string const matchingAttrMatchName = themeParameters->getValue(MATCHING_ATTR_MATCH).toString();
             std::string const distThreshold = themeParameters->getValue(CR_DIST_THRESHOLD).toString();
             double const bufSimplificationThreshold = themeParameters->getValue(CR_BUFFER_SIMPLIFICATION_THESHOLD).toDouble();
 
@@ -157,9 +157,14 @@ namespace app
                 ign::feature::Feature const& fCd = itCd->next();
                 ign::data::Variant const& idRef = fCd.getAttribute(idRefName);
                 ign::data::Variant const& idUp = fCd.getAttribute(idUpName);
+                ign::data::Variant const& matchingAttrMatch = fCd.getAttribute(matchingAttrMatchName);
 
-                if (!idRef.isNull()) sIdRef.insert(idRef.toString());
-                if (!idUp.isNull()) sIdUp.insert(idUp.toString());
+                if (idRef.isNull()) sIdUp.insert(idUp.toString());
+                else if (idUp.isNull()) sIdRef.insert(idRef.toString());
+                else if (!matchingAttrMatch.isNull() && !matchingAttrMatch.toBoolean()) {
+                    sIdUp.insert(idUp.toString());
+                    sIdRef.insert(idRef.toString());
+                }
             }
 
             ign::feature::FeatureFilter filterBorder(countryCodeName+" LIKE '%"+_countryCode+"%' AND ("+countryCodeName+" LIKE '%#%' OR "+boundaryTypeName+"='"+interBoundaryTypeValue+"')");
@@ -265,11 +270,6 @@ namespace app
                 if( sCd.find(featId) == sCd.end() ) continue;
                 if( sTreated.find(featId) != sTreated.end() ) continue;
                 sTreated.insert(featId);
-
-                // ign::feature::Feature fArea = _fsUpArea->newFeature();
-                // fArea.setGeometry(feat.getGeometry().buffer(distBuffer));
-                // fArea.setAttribute(countryCodeName, ign::data::String(_countryCode));
-                // _fsUpArea->createFeature(fArea);
 
                 resultGeomPtr.reset(resultGeomPtr->Union(*feat.getGeometry().buffer(distBuffer)));
             }

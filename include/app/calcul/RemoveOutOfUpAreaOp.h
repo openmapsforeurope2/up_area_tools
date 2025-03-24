@@ -13,23 +13,32 @@
 namespace app{
 namespace calcul{
 
+	/// @brief Classe detinée à la suppression des objets qui ne sont pas
+	/// en intersection avec les zones de mise à jour.
 	class RemoveOutOfUpAreaOp {
 
 	public:
 
 	
-        /// @brief 
+        /// @brief Constructeur
+        /// @param featureName Nom de la classe d'objet à traiter
+        /// @param countryCode Code pays simple
+        /// @param verbose Mode verbeux
         RemoveOutOfUpAreaOp(
 			std::string const& featureName,
 			std::string const& countryCode,
             bool verbose
         );
 
-        /// @brief 
+        /// @brief Destructeur
         ~RemoveOutOfUpAreaOp();
 
 
-		/// \brief
+		/// @brief Lance la suppression des objets qui ne sont pas en
+		/// intersection avec les zones de mise à jour
+		/// @param featureName Nom de la classe d'objet à traiter
+        /// @param countryCode Code pays simple
+        /// @param verbose Mode verbeux
 		static void Compute(
 			std::string const& featureName,
 			std::string const& countryCode,

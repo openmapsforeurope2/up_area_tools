@@ -13,14 +13,15 @@
 namespace app{
 namespace calcul{
 
+	/// @brief Classe dédiée à la création des zones de mise à jour
 	class UpAreaCreationOp {
 
 	public:
 
-	
         /// @brief 
-        /// @param countryCode 
-        /// @param verbose 
+        /// @param featureName Nom de la classe d'objet à traiter
+        /// @param countryCode Code pays simple
+        /// @param verbose Mode verbeux
         UpAreaCreationOp(
 			std::string const& featureName,
             std::string const& countryCode,
@@ -31,7 +32,15 @@ namespace calcul{
         ~UpAreaCreationOp();
 
 
-		/// \brief
+		/// @brief Lance la création des zones de mise à jour. Ces zones
+		/// sont obtenues par la fusion des buffers réalisés autour des 
+		/// créés, des objet supprimés aisni que des objets faisant l'objet 
+		/// d'une mise à jour géométrique ou d'une mise à jour de certains de leurs
+		/// attributs (ceux définis comme impactant le processus de raccordement 
+		/// aux frontières)
+		/// @param featureName Nom de la classe d'objet à traiter
+        /// @param countryCode Code pays simple
+        /// @param verbose Mode verbeux
 		static void Compute(
 			std::string const& featureName,
 			std::string const& countryCode, 

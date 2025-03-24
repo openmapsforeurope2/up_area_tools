@@ -16,10 +16,7 @@ namespace params{
 	ThemeParameters::ThemeParameters()
 	{
 		_initParameter( DB_CONF_FILE, "DB_CONF_FILE");
-		_initParameter( AU_SCHEMA, "AU_SCHEMA");
-		_initParameter( IB_SCHEMA, "IB_SCHEMA");
-		_initParameter( HY_SCHEMA, "HY_SCHEMA");
-		_initParameter( TN_SCHEMA, "TN_SCHEMA");
+		_initParameter( THEME_SCHEMA, "THEME_SCHEMA");
 		_initParameter( REF_SCHEMA, "REF_SCHEMA");
 		_initParameter( UP_SCHEMA, "UP_SCHEMA");
 		_initParameter( WK_SCHEMA, "WK_SCHEMA");
@@ -33,6 +30,7 @@ namespace params{
 		_initParameter( ID_UP, "ID_UP");
 		_initParameter( GEOM_MATCH, "GEOM_MATCH");
 		_initParameter( ATTR_MATCH, "ATTR_MATCH");
+		_initParameter( MATCHING_ATTR_MATCH, "MATCHING_ATTR_MATCH");
 		_initParameter( BORDER_CODE, "BORDER_CODE");
 
 		_initParameter( CR_DIST_THRESHOLD, "CR_DIST_THRESHOLD");
